@@ -1,1 +1,1 @@
-bacis algorithms from Segewick course + books
+bacis algorithms from Sedgewick course + books
