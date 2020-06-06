@@ -1,0 +1,57 @@
+public class QuickUnionImproved {
+
+    //same as QU, but maintain extra array sz[i]
+    //to count number of objects in the tree rooted at i.
+	
+    //Find is identical to QU
+	
+    private int [] id;
+    
+    public QuickUnionImproved (int N) {
+
+    	// set id of each object to itself (N array accesses)
+    	id = new int[N];
+    	for (int i = 0; i < N; i++) id[i] = i;
+    }
+	
+
+    // Path Compression
+    // Two-pass implementation:
+    // add second loop to root() to set the id[] of each examined node to the root
+
+    // Simpler one-pass variant: Make every other node in path point to its grandparent
+    // (thereby halving path length)
+
+	private int root (int i) {
+    	while (i != id[i]) i = id[i];
+    
+        id[i] = id[id[i]];  //only added ine extra line of code!!!
+
+    	return i;
+    }
+	
+	
+	
+	
+	
+	public boolean connected (int p, int q) {
+    	return root(p) == root(q);
+    }
+	
+	// modifying QU to :
+	// link root of smaller tree to the root of larger tree
+	// updates the sz[] array
+	
+	public void union (int p, int q) {
+		int sz[] = new int[0];
+    	int i = root(p);
+    	int j = root(q);
+    	if (i == j) return;
+    	if (sz[i] < sz[j]) {
+    		id[i] = j; sz[j] += sz[i];
+    	}
+    	else {
+    		id[j] = i; sz[i] += sz[j];
+    	}
+    }
+}
